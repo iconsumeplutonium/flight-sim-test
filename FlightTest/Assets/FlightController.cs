@@ -6,39 +6,42 @@ using System.Runtime.InteropServices;
 
 
 public class FlightController : MonoBehaviour {
-    public float minSpeed = 0;
-    public float maxSpeed = 1;
-    public float currentSpeed;
+    //public float minSpeed = 0;
+    //public float maxSpeed = 1;
+    //public float currentSpeed;
 
     Vector2 mousePos;
     Vector2 movement;
 
     public CharacterController charController;
 
-    public Vector2 turnSpeed;
+    //public Vector2 turnSpeed;
     public GameObject center;
 
-    public float turnThreshold;
-    public float rotationSpeed;
+    //public float turnThreshold;
+    //public float rotationSpeed;
 
     public Slider speedometer;
-    public float speedIncreaseStep;
+    //public float speedIncreaseStep;
+
+    public FlightProfile[] profiles;
+    public int profileIndex;
 
     [DllImport("user32.dll")]
     static extern bool SetCursorPos(int X, int Y);
 
     private void Start() {
         Debug.Log("w: " + Screen.width + ", h: " + Screen.height);
-        Cursor.lockState = CursorLockMode.Confined;
+        //Cursor.lockState = CursorLockMode.Confined;
     }
 
     private void Update() {
         //flight speed
-        charController.Move(transform.forward * (currentSpeed / 5));
+        charController.Move(transform.forward * (profiles[profileIndex].currentSpeed / 5));
 
         //mouse X rotation
-        float deltaX = (mousePos.x - (Screen.width / 2)) / turnThreshold;
-        float deltaY = (mousePos.y - (Screen.height / 2)) / turnThreshold;
+        float deltaX = (mousePos.x - (Screen.width / 2)) / profiles[profileIndex].turnThreshold;
+        float deltaY = (mousePos.y - (Screen.height / 2)) / profiles[profileIndex].turnThreshold;
         Vector2 mouseDelta = new Vector2(deltaX, deltaY);
 
         //if (mouseDelta.magnitude > 5) {
@@ -50,7 +53,7 @@ public class FlightController : MonoBehaviour {
 
         //    Debug.Log((int)clampedPos.x + (Screen.width / 2) + ", " + (int)clampedPos.y + (Screen.height / 2));
         //}
-        transform.Rotate(Vector3.up, mouseDelta.x * turnSpeed.x * Time.deltaTime);
+        transform.Rotate(Vector3.up, mouseDelta.x * profiles[profileIndex].turnSpeed.x * Time.deltaTime);
 
         //mouse Y rotation
         //Vector3 targetRotation = transform.eulerAngles;
@@ -58,16 +61,16 @@ public class FlightController : MonoBehaviour {
         //targetRotation.z = rotationSpeed * movement.x;
         //transform.eulerAngles = targetRotation;
 
-        transform.Rotate(Vector3.left, mouseDelta.y * turnSpeed.y * Time.deltaTime);
+        transform.Rotate(Vector3.left, mouseDelta.y * profiles[profileIndex].turnSpeed.y * Time.deltaTime);
 
         //WASD
         //A and D to rotate the plane
-        transform.Rotate(Vector3.forward, rotationSpeed * movement.x * -1);
+        transform.Rotate(Vector3.forward, profiles[profileIndex].rotationSpeed * movement.x * -1);
 
         //W and S to change speed
         if (movement.y != 0) {
-            currentSpeed = (movement.y > 0) ? Mathf.Min(currentSpeed + speedIncreaseStep, maxSpeed) : Mathf.Max(currentSpeed - speedIncreaseStep, minSpeed);
-            speedometer.value = currentSpeed / maxSpeed;
+            profiles[profileIndex].currentSpeed = (movement.y > 0) ? Mathf.Min(profiles[profileIndex].currentSpeed + profiles[profileIndex].speedIncreaseStep, profiles[profileIndex].maxSpeed) : Mathf.Max(profiles[profileIndex].currentSpeed - profiles[profileIndex].speedIncreaseStep, profiles[profileIndex].minSpeed);
+            speedometer.value = profiles[profileIndex].currentSpeed / profiles[profileIndex].maxSpeed;
         }
 
     }
