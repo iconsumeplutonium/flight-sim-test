@@ -27,12 +27,15 @@ public class FlightController : MonoBehaviour {
     public FlightProfile[] profiles;
     public int profileIndex;
 
+    public bool Cringe = false;
+
     [DllImport("user32.dll")]
     static extern bool SetCursorPos(int X, int Y);
 
     private void Start() {
-        Debug.Log("w: " + Screen.width + ", h: " + Screen.height);
+        //Debug.Log("w: " + Screen.width + ", h: " + Screen.height);
         //Cursor.lockState = CursorLockMode.Confined;
+        speedometer.value = profiles[profileIndex].currentSpeed / profiles[profileIndex].maxSpeed;
     }
 
     private void Update() {
@@ -60,8 +63,8 @@ public class FlightController : MonoBehaviour {
         //targetRotation.x -= deltaY;
         //targetRotation.z = rotationSpeed * movement.x;
         //transform.eulerAngles = targetRotation;
-
-        transform.Rotate(Vector3.left, mouseDelta.y * profiles[profileIndex].turnSpeed.y * Time.deltaTime);
+        int invert = Cringe ? -1 : 1;
+        transform.Rotate(Vector3.left, mouseDelta.y * profiles[profileIndex].turnSpeed.y * invert * Time.deltaTime);
 
         //WASD
         //A and D to rotate the plane
