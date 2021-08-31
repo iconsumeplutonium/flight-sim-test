@@ -6,23 +6,15 @@ using System.Runtime.InteropServices;
 
 
 public class FlightController : MonoBehaviour {
-    //public float minSpeed = 0;
-    //public float maxSpeed = 1;
-    //public float currentSpeed;
 
     Vector2 mousePos;
     Vector2 movement;
 
     public CharacterController charController;
 
-    //public Vector2 turnSpeed;
     public GameObject center;
 
-    //public float turnThreshold;
-    //public float rotationSpeed;
-
     public Slider speedometer;
-    //public float speedIncreaseStep;
 
     public FlightProfile[] profiles;
     public int profileIndex;
@@ -33,7 +25,6 @@ public class FlightController : MonoBehaviour {
     static extern bool SetCursorPos(int X, int Y);
 
     private void Start() {
-        //Debug.Log("w: " + Screen.width + ", h: " + Screen.height);
         //Cursor.lockState = CursorLockMode.Confined;
         speedometer.value = profiles[profileIndex].currentSpeed / profiles[profileIndex].maxSpeed;
     }
@@ -47,6 +38,7 @@ public class FlightController : MonoBehaviour {
         float deltaY = (mousePos.y - (Screen.height / 2)) / profiles[profileIndex].turnThreshold;
         Vector2 mouseDelta = new Vector2(deltaX, deltaY);
 
+        #region failed mouse lock code
         //if (mouseDelta.magnitude > 5) {
         //    //mouseDelta = Vector2.ClampMagnitude(mouseDelta, turnThreshold);
         //    //Debug.Log(mouseDelta);
@@ -56,13 +48,18 @@ public class FlightController : MonoBehaviour {
 
         //    Debug.Log((int)clampedPos.x + (Screen.width / 2) + ", " + (int)clampedPos.y + (Screen.height / 2));
         //}
+        #endregion
+
         transform.Rotate(Vector3.up, mouseDelta.x * profiles[profileIndex].turnSpeed.x * Time.deltaTime);
 
+        #region old mouse Y code
         //mouse Y rotation
         //Vector3 targetRotation = transform.eulerAngles;
         //targetRotation.x -= deltaY;
         //targetRotation.z = rotationSpeed * movement.x;
         //transform.eulerAngles = targetRotation;
+        #endregion
+
         int invert = Cringe ? -1 : 1;
         transform.Rotate(Vector3.left, mouseDelta.y * profiles[profileIndex].turnSpeed.y * invert * Time.deltaTime);
 
