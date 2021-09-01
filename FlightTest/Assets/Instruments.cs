@@ -40,20 +40,6 @@ public class Instruments : MonoBehaviour {
 
         if (testmovement) {
             //move attitude indicator up and down
-            float xRot = aircraft.transform.eulerAngles.x;
-            //Debug.Log(xRot);
-            /*
-             *  |----------------------
-             *  |          ___----[plane]
-             *  |    ___---
-             *  |_---
-             */
-            //use the trig and the angle it looks down by to get the distance
-            float dist = Mathf.Sin(xRot) * hypotenuse;
-            float dist1 = Vector3.Dot(transform.up, aircraft.transform.eulerAngles);
-            float asdf = ((xRot / 360f) * 500) + 200;
-            //attitudeIndicatorPosition.transform.position = new Vector3(400, dist1, 0f);
-            //Debug.Log(dist);
 
 
             //for (int i = 0; i < pitchAttitudes.Length; i++) {
@@ -62,13 +48,27 @@ public class Instruments : MonoBehaviour {
             //    pitchAttitudes[i].transform.position = new Vector3(Screen.width / 2f, (transformedAngle * offset) + Screen.height / 2, 0f);
             //}
 
-            Vector3 pos = Camera.main.WorldToScreenPoint(aircraft.transform.TransformDirection(aircraft.transform.forward * 292));
+            //Vector3 pos = Camera.main.WorldToScreenPoint(aircraft.transform.TransformDirection(aircraft.transform.forward * 292));
             //Vector3 pos1 = aircraft.transform.position;
             //pos1.z += 292;
 
             //pos.x = 0;
             //pos.y = 31f;
-            pos.z += 292f;
+            //pos.z += 292f;
+
+            //Vector3 pos = ProjectPointOnPlane(Vector3.up, Vector3.zero, transform.forward);
+            //float pitch = SignedAngle(transform.forward, pos, transform.right);
+
+            //pos = ProjectPointOnPlane(Vector3.up, Vector3.zero, transform.right);
+            //float roll = SignedAngle(transform.right, pos * 2, transform.forward);
+
+            //attitudeIndicatorPosition.transform.rotation = Quaternion.AngleAxis(roll, Vector3.forward);
+            //attitudeIndicatorPosition.transform.position = new Vector3(attitudeIndicatorPosition.transform.position.x, pitch * -10 * Screen.height / 2, attitudeIndicatorPosition.transform.position.z);
+
+            Vector3 pos = Camera.main.transform.TransformDirection(Vector3.forward * 300f);
+            //pos.y = 31;
+            //GameObject o = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            //o.transform.position = pos;
 
             pitchAttitudes[4].transform.position = pos;
         }
@@ -86,6 +86,19 @@ public class Instruments : MonoBehaviour {
 
     public float TransformAngle(float angle, float fov, float pixelHeight) {
         return (Mathf.Tan(angle) / Mathf.Tan(fov / 2)) * pixelHeight / 2;
+    }
+
+    public float SignedAngle(Vector3 v1, Vector3 v2, Vector3 normal) {
+        var perp = Vector3.Cross(normal, v1);
+        var angle = Vector3.Angle(v1, v2);
+        angle *= Mathf.Sign(Vector3.Dot(perp, v2));
+        return angle;
+    }
+
+    public Vector3 ProjectPointOnPlane(Vector3 planeNormal, Vector3 planePoint, Vector3 point) {
+        planeNormal.Normalize();
+        var distance = -Vector3.Dot(planeNormal.normalized, (point - planePoint));
+        return point + planeNormal * distance;
     }
 
 }
