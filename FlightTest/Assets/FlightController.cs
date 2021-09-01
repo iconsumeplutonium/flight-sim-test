@@ -31,7 +31,7 @@ public class FlightController : MonoBehaviour {
 
     private void Update() {
         //flight speed
-        charController.Move(transform.forward * (profiles[profileIndex].currentSpeed / 5));
+        //charController.Move(transform.forward * (profiles[profileIndex].currentSpeed / 5));
 
         //mouse X rotation
         float deltaX = (mousePos.x - (Screen.width / 2)) / profiles[profileIndex].turnThreshold;
@@ -50,7 +50,7 @@ public class FlightController : MonoBehaviour {
         //}
         #endregion
 
-        transform.Rotate(Vector3.up, mouseDelta.x * profiles[profileIndex].turnSpeed.x * Time.deltaTime);
+        //transform.Rotate(Vector3.up, mouseDelta.x * profiles[profileIndex].turnSpeed.x * Time.deltaTime);
 
         #region old mouse Y code
         //mouse Y rotation
@@ -65,13 +65,13 @@ public class FlightController : MonoBehaviour {
 
         //WASD
         //A and D to rotate the plane
-        transform.Rotate(Vector3.forward, profiles[profileIndex].rotationSpeed * movement.x * -1);
+        //transform.Rotate(Vector3.forward, profiles[profileIndex].rotationSpeed * movement.x * -1);
 
         //W and S to change speed
-        if (movement.y != 0) {
-            profiles[profileIndex].currentSpeed = (movement.y > 0) ? Mathf.Min(profiles[profileIndex].currentSpeed + profiles[profileIndex].speedIncreaseStep, profiles[profileIndex].maxSpeed) : Mathf.Max(profiles[profileIndex].currentSpeed - profiles[profileIndex].speedIncreaseStep, profiles[profileIndex].minSpeed);
-            speedometer.value = profiles[profileIndex].currentSpeed / profiles[profileIndex].maxSpeed;
-        }
+        //if (movement.y != 0) {
+        //    profiles[profileIndex].currentSpeed = (movement.y > 0) ? Mathf.Min(profiles[profileIndex].currentSpeed + profiles[profileIndex].speedIncreaseStep, profiles[profileIndex].maxSpeed) : Mathf.Max(profiles[profileIndex].currentSpeed - profiles[profileIndex].speedIncreaseStep, profiles[profileIndex].minSpeed);
+        //    speedometer.value = profiles[profileIndex].currentSpeed / profiles[profileIndex].maxSpeed;
+        //}
 
     }
 
