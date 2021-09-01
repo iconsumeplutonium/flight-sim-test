@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class Instruments : MonoBehaviour {
 
@@ -15,8 +16,12 @@ public class Instruments : MonoBehaviour {
     public GameObject attitudeIndicatorPosition;
     public GameObject[] pitchAttitudes;
 
+    public GameObject horizon;
+
     public float hypotenuse;
     public bool testmovement;
+
+    public float offset;
 
     private void Start() {
         //aircraft = GameObject.FindGameObjectWithTag("Frederick");
@@ -29,9 +34,9 @@ public class Instruments : MonoBehaviour {
 
         //Rotate attitude indicator
         float zRot = aircraft.transform.eulerAngles.z;
-        Vector3 angles = attitudeIndicatorRotation.transform.eulerAngles;
+        Vector3 angles = attitudeIndicatorRotation.transform.localEulerAngles;
         angles.z = -zRot;
-        attitudeIndicatorRotation.transform.eulerAngles = angles;
+        attitudeIndicatorRotation.transform.localEulerAngles = angles;
 
         if (testmovement) {
             //move attitude indicator up and down
@@ -47,13 +52,25 @@ public class Instruments : MonoBehaviour {
             float dist = Mathf.Sin(xRot) * hypotenuse;
             float dist1 = Vector3.Dot(transform.up, aircraft.transform.eulerAngles);
             float asdf = ((xRot / 360f) * 500) + 200;
-            attitudeIndicatorPosition.transform.position = new Vector3(400, dist1, 0f);
+            //attitudeIndicatorPosition.transform.position = new Vector3(400, dist1, 0f);
             //Debug.Log(dist);
 
-            //foreach (var attitude in pitchAttitudes) {
-            //    attitude.transform.position += new Vector3(0, dist, 0f);
-            //    Debug.Log(new Vector3(0f, xRot, 0f));
+
+            //for (int i = 0; i < pitchAttitudes.Length; i++) {
+            //    float angle = -40 + (10 * i);
+            //    float transformedAngle = TransformAngle(angle, Camera.main.fieldOfView, 1f);
+            //    pitchAttitudes[i].transform.position = new Vector3(Screen.width / 2f, (transformedAngle * offset) + Screen.height / 2, 0f);
             //}
+
+            Vector3 pos = Camera.main.WorldToScreenPoint(aircraft.transform.TransformDirection(aircraft.transform.forward * 292));
+            //Vector3 pos1 = aircraft.transform.position;
+            //pos1.z += 292;
+
+            //pos.x = 0;
+            //pos.y = 31f;
+            pos.z += 292f;
+
+            pitchAttitudes[4].transform.position = pos;
         }
 
         //enable or disable pitch attitudes
@@ -65,6 +82,10 @@ public class Instruments : MonoBehaviour {
         //        attitude.SetActive(true);
         //    }
         //}
+    }
+
+    public float TransformAngle(float angle, float fov, float pixelHeight) {
+        return (Mathf.Tan(angle) / Mathf.Tan(fov / 2)) * pixelHeight / 2;
     }
 
 }
