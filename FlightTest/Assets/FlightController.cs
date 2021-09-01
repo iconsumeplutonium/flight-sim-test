@@ -50,7 +50,7 @@ public class FlightController : MonoBehaviour {
         //}
         #endregion
 
-        transform.Rotate(Vector3.up, mouseDelta.x * profiles[profileIndex].turnSpeed.x * Time.deltaTime, Space.World);
+        transform.Rotate(Vector3.up, mouseDelta.x * profiles[profileIndex].turnSpeed.x * Time.deltaTime);
 
         #region old mouse Y code
         //mouse Y rotation
@@ -61,7 +61,7 @@ public class FlightController : MonoBehaviour {
         #endregion
 
         int invert = Cringe ? -1 : 1;
-        transform.Rotate(Vector3.left, mouseDelta.y * profiles[profileIndex].turnSpeed.y * invert * Time.deltaTime, Space.World);
+        transform.Rotate(Vector3.left, mouseDelta.y * profiles[profileIndex].turnSpeed.y * invert * Time.deltaTime);
 
         //WASD
         //A and D to rotate the plane

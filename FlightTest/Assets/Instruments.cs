@@ -25,6 +25,7 @@ public class Instruments : MonoBehaviour {
 
     private void Start() {
         //aircraft = GameObject.FindGameObjectWithTag("Frederick");
+        attitudeIndicatorPosition.transform.position = new Vector3(0f, 10f, 0f);
     }
 
     private void Update() {
@@ -36,7 +37,7 @@ public class Instruments : MonoBehaviour {
         float zRot = aircraft.transform.eulerAngles.z;
         Vector3 angles = attitudeIndicatorRotation.transform.localEulerAngles;
         angles.z = -zRot;
-        attitudeIndicatorRotation.transform.localEulerAngles = angles;
+        //attitudeIndicatorRotation.transform.localEulerAngles = angles;
 
         if (testmovement) {
             //move attitude indicator up and down
@@ -65,12 +66,17 @@ public class Instruments : MonoBehaviour {
             //attitudeIndicatorPosition.transform.rotation = Quaternion.AngleAxis(roll, Vector3.forward);
             //attitudeIndicatorPosition.transform.position = new Vector3(attitudeIndicatorPosition.transform.position.x, pitch * -10 * Screen.height / 2, attitudeIndicatorPosition.transform.position.z);
 
-            Vector3 pos = Camera.main.transform.TransformDirection(Vector3.forward * 300f);
+            //Vector3 pos = Camera.main.transform.TransformDirection(Vector3.forward * 300f);
             //pos.y = 31;
             //GameObject o = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             //o.transform.position = pos;
 
-            pitchAttitudes[4].transform.position = pos;
+            //  pitchAttitudes[4].transform.position = pos;
+
+            float pitch = Mathf.Clamp(Mathf.Tan(aircraft.transform.eulerAngles.x / 20f), -360f, 360f);
+            Debug.Log(pitch);
+            //attitudeIndicatorPosition.transform.position = new Vector3(0f, 10f, 0f);
+
         }
 
         //enable or disable pitch attitudes
