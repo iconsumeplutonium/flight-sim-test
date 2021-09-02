@@ -21,6 +21,9 @@ public class FlightController : MonoBehaviour {
 
     public bool Cringe = false;
 
+    [HideInInspector]
+    public float upAngle;
+
     [DllImport("user32.dll")]
     static extern bool SetCursorPos(int X, int Y);
 

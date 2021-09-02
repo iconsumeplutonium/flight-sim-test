@@ -13,19 +13,11 @@ public class Instruments : MonoBehaviour {
     public TMP_Text altitudeText;
 
     public RectTransform aircraftSymbol;
-    public RectTransform attitudeIndicatorPosition;
-    public GameObject[] pitchAttitudes;
 
-    public GameObject horizon;
-
-    public float hypotenuse;
-    public bool testmovement;
-
-    public float offset;
+    public GameObject attitudeNeedle;
 
     private void Start() {
-        //aircraft = GameObject.FindGameObjectWithTag("Frederick");
-        Debug.Log(attitudeIndicatorPosition.transform.position.y);
+
     }
 
     private void Update() {
@@ -33,23 +25,73 @@ public class Instruments : MonoBehaviour {
         altimeter.value = Mathf.Max(Mathf.Min(aircraft.transform.position.y, altimeter.maxValue), altimeter.minValue);
         altitudeText.text = Mathf.RoundToInt(aircraft.transform.position.y * 50) + " feet";
 
-        //Rotate attitude indicator
+        //Rotate attitude indicator (yellow line)
         float zRot = aircraft.transform.eulerAngles.z;
         Vector3 angles = aircraftSymbol.transform.localEulerAngles;
         angles.z = -zRot;
         aircraftSymbol.transform.localEulerAngles = angles;
 
-        if (testmovement) {
-            
-            Vector3 pos = Camera.main.transform.TransformDirection(Vector3.forward * 300f);
+        //rotate attitude indicator
+        //float xRot = aircraft.transform.eulerAngles.x;
+        //Vector3 angles1 = attitudeNeedle.transform.eulerAngles;
+
+        //if (xRot < -180)
+        //    xRot += 180;
+
+        //angles1.z = xRot;
+
+        var pos = ProjectPointOnPlane(Vector3.up, Vector3.zero, aircraft.transform.forward);
+        float pitch = SignedAngle(transform.forward, pos, transform.right);
+
+        float xRot = aircraft.transform.eulerAngles.x;
+        Vector3 angles1 = attitudeNeedle.transform.localEulerAngles;
+
+        angles1.z = NormalizeAngle(xRot, 0f, 360f);
+
+
+        attitudeNeedle.transform.localEulerAngles = angles1;
+    }
+
+    /*
+     * line that moves with horizon code shit
+     * 
+     *             Vector3 pos = Camera.main.transform.TransformDirection(Vector3.forward * 300f);
             pos = Camera.main.WorldToScreenPoint(new Vector3(Screen.width / 2, 31f, pos.z));
 
-            attitudeIndicatorPosition.transform.position = pos;
+    apply pos to the rectransform
+     * 
+     */
 
-        }
 
-
-
+    public float SignedAngle(Vector3 v1, Vector3 v2, Vector3 normal) {
+        var perp = Vector3.Cross(normal, v1);
+        var angle = Vector3.Angle(v1, v2);
+        angle *= Mathf.Sign(Vector3.Dot(perp, v2));
+        return angle;
     }
+
+    public Vector3 ProjectPointOnPlane(Vector3 planeNormal, Vector3 planePoint, Vector3 point) {
+        planeNormal.Normalize();
+        var distance = -Vector3.Dot(planeNormal.normalized, (point - planePoint));
+        return point + planeNormal * distance;
+    }
+    private static float UnwrapAngle(float angle) {
+        if (angle >= 0)
+            return angle;
+
+        angle = -angle % 360;
+
+        return 360 - angle;
+    }
+
+    float NormalizeAngle(float value, float start, float end) 
+    {
+      float width = end - start;   // 
+      float offsetValue = value - start;   // value relative to 0
+
+      return (offsetValue - (Mathf.Floor(offsetValue / width ) * width ) ) + start ;
+      // + start to reset back to start of original range
+    }
+
 
 }
