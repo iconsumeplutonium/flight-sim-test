@@ -16,8 +16,11 @@ public class Instruments : MonoBehaviour {
 
     public GameObject attitudeNeedle;
 
-    private void Start() {
+    float lowest, highest;
 
+    private void Start() {
+        lowest = int.MaxValue;
+        highest = int.MinValue;
     }
 
     private void Update() {
@@ -46,10 +49,25 @@ public class Instruments : MonoBehaviour {
         float xRot = aircraft.transform.eulerAngles.x;
         Vector3 angles1 = attitudeNeedle.transform.localEulerAngles;
 
-        angles1.z = NormalizeAngle(xRot, 0f, 360f);
+        angles1.z = xRot;//(-xRot + 90f) * 2f;//NormalizeAngle(xRot, 0f, 360f);
+        if (xRot < lowest)
+            lowest = xRot;
+
+        if (xRot > highest)
+            highest = xRot;
+
+        angles1.z += xRot;
+
+        angles1.z = angles1.z % 360;
+
+        if (angles1.z < 0) {
+            angles1.z += 360 + 180;
+        }
 
 
         attitudeNeedle.transform.localEulerAngles = angles1;
+
+        Debug.Log("lowest: " + lowest + ", highest: " + highest + ", current: " + angles1.z);
     }
 
     /*
