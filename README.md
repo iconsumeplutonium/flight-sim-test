@@ -2,7 +2,7 @@
 
 This is a basic flight simulator I made with simple controls and some instruments. 
 
-![Video](https://cdn.discordapp.com/attachments/690652979036028929/883428311718588466/gif_display.gif)
+![Video](https://cdn.discordapp.com/attachments/690652979036028929/883475801868214282/display_gif.gif)
 
 #### Project Files
 
