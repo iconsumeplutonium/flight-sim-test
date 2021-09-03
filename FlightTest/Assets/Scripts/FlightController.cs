@@ -16,6 +16,8 @@ public class FlightController : MonoBehaviour {
 
     public Slider speedometer;
 
+    public GameObject[] aircraft;
+
     public FlightProfile[] profiles;
     public int profileIndex;
 
@@ -24,12 +26,15 @@ public class FlightController : MonoBehaviour {
     [HideInInspector]
     public float upAngle;
 
+    //leftover from when I tried to lock the mouse cursor to within a certan radius of the screen center
     [DllImport("user32.dll")]
     static extern bool SetCursorPos(int X, int Y);
 
     private void Start() {
         //Cursor.lockState = CursorLockMode.Confined;
         speedometer.value = profiles[profileIndex].currentSpeed / profiles[profileIndex].maxSpeed;
+
+        aircraft[profileIndex].SetActive(true);
     }
 
     private void Update() {
@@ -54,14 +59,6 @@ public class FlightController : MonoBehaviour {
         #endregion
 
         transform.Rotate(Vector3.up, mouseDelta.x * profiles[profileIndex].turnSpeed.x * Time.deltaTime);
-
-        #region old mouse Y code
-        //mouse Y rotation
-        //Vector3 targetRotation = transform.eulerAngles;
-        //targetRotation.x -= deltaY;
-        //targetRotation.z = rotationSpeed * movement.x;
-        //transform.eulerAngles = targetRotation;
-        #endregion
 
         int invert = Cringe ? -1 : 1;
         transform.Rotate(Vector3.left, mouseDelta.y * profiles[profileIndex].turnSpeed.y * invert * Time.deltaTime);
