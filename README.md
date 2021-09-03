@@ -36,5 +36,5 @@ The gauge in the top left shows the angle of the current craft relative to "norm
 
 [X-wing Model](https://sketchfab.com/3d-models/x-wing-game-res-uhuZnTJCksW96EYFa92KVZhMY2b)
 
-[Airbus Model](https://sketchfab.com/3d-models/airbus-a380-c5145466a01f454d996ec819a40e212f)
+[Airbus Model](https://sketchfab.com/3d-models/airbus-a380-4dbb5e4cbc7b42fbb74c3bde5491b165)
 
