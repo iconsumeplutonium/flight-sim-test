@@ -6,7 +6,7 @@ This is a basic flight simulator I made with simple controls and some instrument
 
 #### Project Files
 
-This project was written in C# in version 2020.3.12f1 of the Unity engine. To install this project, unzip the folder and add the `Procedural Biome Generation` folder to
+This project was written in C# in version 2020.3.12f1 of the Unity engine. To install this project, unzip the folder and add the `FlightSim` folder to
 your Unity projects folder. Then, simply open it in Unity by hitting `Add` in Unity Hub.
 
 
