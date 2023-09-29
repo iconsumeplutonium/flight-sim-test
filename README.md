@@ -1,20 +1,14 @@
 #### Description
 
-This is a basic flight simulator I made with simple controls and some instruments. 
+This is a basic flight simulator I made with simple controls and some instruments. Made with verison 2020.3.12f1 of the Unity engine
 
-![Video](https://cdn.discordapp.com/attachments/690652979036028929/883475801868214282/display_gif.gif)
-
-#### Project Files
-
-This project was written in C# in version 2020.3.12f1 of the Unity engine. To install this project, unzip the folder and add the `FlightSim` folder to
-your Unity projects folder. Then, simply open it in Unity by hitting `Add` in Unity Hub.
+![Video](https://i.ibb.co/GCZfysP/display-gif.gif)
 
 
 Each aircraft has its own associated "flight profile": how fast it turns, moves,
 accelerates, etc. To switch between different aircraft, change the value of "Profile Index" on the FlightController script on the `FlyingObj` gameobject.
 
-
-![](https://cdn.discordapp.com/attachments/690652979036028929/883393659834339338/unknown.png)
+![](https://i.imgur.com/h52Essz.png)
 
 * 1: Cylinder
 * 2: X-wing
@@ -22,7 +16,7 @@ accelerates, etc. To switch between different aircraft, change the value of "Pro
 
 #### Instruments
 
-![](https://cdn.discordapp.com/attachments/690652979036028929/883395459220135957/Untitled.png)
+![](https://i.imgur.com/0bYu88R.png)
 
 The gauge in the top left shows the angle of the current craft relative to "normal." The yellow line will rotate with the craft and show your rotation relative to the horizon. Speedometer and Altimeter are self-explanatory. 
 
